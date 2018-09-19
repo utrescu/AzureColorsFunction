@@ -30,7 +30,7 @@ namespace FunctionColorApp
                                               string rgb, string idioma,
                                               TraceWriter log)
         {
-            log.Info($"Petici� del color {rgb} en {idioma}");
+            log.Info($"Petició del color {rgb} en {idioma}");
 
             var item = inTable.GetColorFromTable(rgb, idioma);
             return new OkObjectResult(item);

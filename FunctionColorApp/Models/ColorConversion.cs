@@ -5,7 +5,7 @@
         public static ColorItem MapToTable(this Color color)
         {
             return new ColorItem(color.Id, color.Traduccio.Idioma)
-            {                
+            {
                 Rgb = color.Rgb,
                 Paraula = color.Traduccio.Paraula
             };

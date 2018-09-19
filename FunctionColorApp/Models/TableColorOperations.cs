@@ -16,9 +16,8 @@ namespace FunctionColorApp.Models
                 color.Id = color.Rgb;
             }
             var item = color.MapToTable();
-            item.Timestamp = new DateTime();
-           var saveOperation = TableOperation.InsertOrReplace(color.MapToTable());
-           table.ExecuteAsync(saveOperation);               
+            var saveOperation = TableOperation.InsertOrReplace(item);
+            table.ExecuteAsync(saveOperation);
         }
 
         public static List<Color> GetAllColorsFromTable(this CloudTable table)
@@ -35,7 +34,7 @@ namespace FunctionColorApp.Models
         public static Color GetColorFromTable(this CloudTable table, string id, string Idioma)
         {
             var retrieveOperation = TableOperation.Retrieve<ColorItem>(id, Idioma);
-           TableResult resultat = table.ExecuteAsync(retrieveOperation).Result;
+            TableResult resultat = table.ExecuteAsync(retrieveOperation).Result;
             if (resultat.Result != null)
             {
                 ColorItem item = ((ColorItem)resultat.Result);
@@ -59,7 +58,7 @@ namespace FunctionColorApp.Models
 
         public static void DeleteColorFromTable(this CloudTable table, string id, string idioma)
         {
-            var item = new ColorItem(id, idioma) {  ETag = "*" };
+            var item = new ColorItem(id, idioma) { ETag = "*" };
             var deleteOperation = TableOperation.Delete(item);
             table.ExecuteAsync(deleteOperation);
         }
