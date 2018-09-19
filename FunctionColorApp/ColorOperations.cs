@@ -15,7 +15,7 @@ namespace FunctionColorApp
     public static class ColorOperations
     {
         [FunctionName("GetAll")]
-        public static IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "colors")]HttpRequest req,
+        public static IActionResult GetAll([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "colors")]HttpRequest req,
             [Table("colorsTable", Connection = "MyTable")]CloudTable inTable,
             TraceWriter log)
         {
