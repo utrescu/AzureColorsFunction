@@ -19,7 +19,7 @@ namespace FunctionColorApp
             [Table("colorsTable", Connection = "MyTable")]CloudTable inTable,
             TraceWriter log)
         {
-            log.Info("Petici� de tots els colors.");
+            log.Info("Petició de tots els colors.");
             return new OkObjectResult(inTable.GetAllColorsFromTable());
         }
 
@@ -42,7 +42,7 @@ namespace FunctionColorApp
                                       string rgb,
                                       TraceWriter log)
         {
-            log.Info($"Petici� del color {rgb}");
+            log.Info($"Petició del color {rgb}");
 
             var colors = table.GetColorTranslationFromTable(rgb);
 
@@ -57,6 +57,7 @@ namespace FunctionColorApp
                                                             ExecutionContext context)
         {
 
+            log.Info($"Intent de crear un color");
             try
             {
                 var json = await req.Content.ReadAsStringAsync();
