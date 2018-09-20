@@ -12,7 +12,7 @@ using System;
 
 namespace FunctionColorApp
 {
-    public static class ColorOperations
+    public static class ColorFunctions
     {
         [FunctionName("GetAll")]
         public static IActionResult GetAll([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "colors")]HttpRequest req,
