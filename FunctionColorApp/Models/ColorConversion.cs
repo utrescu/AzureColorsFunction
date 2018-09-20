@@ -1,5 +1,10 @@
 ﻿namespace FunctionColorApp.Models
 {
+    /// <summary>
+    /// Classes d'extensió dels objectes que es fan servir per
+    /// convertir d'un objecte DTO a un objecte de la base de 
+    /// dades (en aquest cas una Table )
+    /// </summary>
     public static class ColorConversion
     {
         public static ColorItem MapToTable(this Color color)

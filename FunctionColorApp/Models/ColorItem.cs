@@ -6,6 +6,10 @@ using System.Text;
 
 namespace FunctionColorApp.Models
 {
+    /// <summary>
+    /// Classes Model de la font de dades
+    /// en aquest cas són Tables
+    /// </summary>
     public class ColorItem: TableEntity
     {
         public ColorItem() { }
