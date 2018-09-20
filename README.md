@@ -5,6 +5,10 @@ Es tracta d'un servei REST per emmagatzemar les traduccions dels noms dels color
 
 O sigui que com en els altres programes que he fet, la idea és emmagatzemar les traduccions dels noms dels colors en diferents idiomes agafant com a clau el codi RGB.
 
+L'estructura és aquesta:
+
+![estructura](README/esquema.png)
+
 Què fa?
 ------------------------
 El programa funciona en Azure Functions i emmagatzema les dades en una 'Cloud Table Storage'
