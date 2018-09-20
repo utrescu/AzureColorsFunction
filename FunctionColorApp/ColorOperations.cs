@@ -53,6 +53,7 @@ namespace FunctionColorApp
         [FunctionName("CreateColor")]
         public static async Task<IActionResult> CreateColor([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "colors")]HttpRequestMessage req,
                                                             [Table("colorsTable", Connection = "MyTable")]CloudTable table,
+                                                            [Queue("color-added-queue", Connection = "MyTable")] IAsyncCollector<Color> outputQueue,
                                                             TraceWriter log,
                                                             ExecutionContext context)
         {
@@ -62,10 +63,16 @@ namespace FunctionColorApp
             {
                 var json = await req.Content.ReadAsStringAsync();
                 var color = JsonConvert.DeserializeObject<Color>(json);
-                table.AddOrUpdateColorToTable(color);
-
-                log.Info($"Color creat");
-                return new CreatedResult("GetColor", color);
+                int code = await table.AddOrUpdateColorToTable(color);
+                if (code == 204) {
+                    log.Info($"Color {color.Id} creat o modificat");
+                    // Enqueue
+                    await outputQueue.AddAsync(color);
+                    //
+                    return new CreatedResult("GetColor", color);
+                } else {
+                    return new BadRequestObjectResult("Failed to create color");
+                }
             }
             catch (Exception e)
             {

@@ -26,7 +26,7 @@ namespace FunctionColorApp.Models
         /// <remarks>
         /// Color és l'objecte DTO
         /// </remarks>
-        public static void AddOrUpdateColorToTable(this CloudTable table, Color color)
+        public static async Task<int> AddOrUpdateColorToTable(this CloudTable table, Color color)
         {
             if (string.IsNullOrEmpty(color.Id))
             {
@@ -34,7 +34,8 @@ namespace FunctionColorApp.Models
             }
             var item = color.MapToTable();
             var saveOperation = TableOperation.InsertOrReplace(item);
-            table.ExecuteAsync(saveOperation);
+            TableResult resultat = await table.ExecuteAsync(saveOperation);
+            return resultat.HttpStatusCode;
         }
 
         /// <summary>
