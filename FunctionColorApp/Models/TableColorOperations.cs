@@ -41,12 +41,17 @@ namespace FunctionColorApp.Models
 
         public static async Task<int> ModifyColorFromTable(this CloudTable table, Color color)
         {
+            if (string.IsNullOrEmpty(color.Id))
+            {
+                color.Id = color.Rgb;
+            }
             var retrieveOperation = TableOperation.Retrieve<ColorItem>(color.Rgb, color.Traduccio.Idioma);
             TableResult resultat = await table.ExecuteAsync(retrieveOperation);
             ColorItem item = ((ColorItem)resultat.Result);
             if (item != null)
             {                
                 item = color.MapToTable();
+                item.ETag = "*";
                 var saveOperation = TableOperation.Replace(item);
                 TableResult resultatDesar = await table.ExecuteAsync(saveOperation);
                 return resultatDesar.HttpStatusCode;
