@@ -10,7 +10,7 @@ namespace FunctionColorApp
     public static class ColorStatisticsFunction
     {
         [FunctionName("ColorStatisticsFunction")]
-        public static void Run([QueueTrigger("color-added-queue", Connection = "MyTable")]string myQueueItem, TraceWriter log)
+        public static void Statistics([QueueTrigger("color-added-queue", Connection = "MyTable")]string myQueueItem, TraceWriter log)
         {
             log.Info($"C# Queue trigger function processed: {myQueueItem}");
         }
