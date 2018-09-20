@@ -1,6 +1,9 @@
 using System;
+using System.Threading.Tasks;
+using FunctionColorApp.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace FunctionColorApp
 {
@@ -10,9 +13,22 @@ namespace FunctionColorApp
     public static class ColorStatisticsFunction
     {
         [FunctionName("ColorStatisticsFunction")]
-        public static void Statistics([QueueTrigger("color-added-queue", Connection = "MyTable")]string myQueueItem, TraceWriter log)
+        public static async Task Statistics(
+            [QueueTrigger("color-added-queue", Connection = "MyTable")]Color myQueueItem,
+            [Table("colorsStatisticsTable", Connection = "MyTable")]CloudTable table, 
+            TraceWriter log)
         {
-            log.Info($"C# Queue trigger function processed: {myQueueItem}");
+             var idioma = myQueueItem.Traduccio.Idioma;
+            log.Info($"Recompte: {idioma}");
+           
+            // Agafa la quantitat actual de colors
+            var quantitat =  table.GetIdiomQuantitatFromTable(idioma); 
+
+            var item = new IdiomItem(idioma) {
+                quantitat = quantitat + 1
+            };
+            await table.AddOrUpdateStatisticsToTable(item);
+            log.Info($"{idioma}: {item.quantitat}");
         }
     }
 }

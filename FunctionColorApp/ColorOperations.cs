@@ -63,7 +63,7 @@ namespace FunctionColorApp
             {
                 var json = await req.Content.ReadAsStringAsync();
                 var color = JsonConvert.DeserializeObject<Color>(json);
-                int code = await table.AddOrUpdateColorToTable(color);
+                int code = await table.AddColorToTable(color);
                 if (code == 204) {
                     log.Info($"Color {color.Id} creat o modificat");
                     // Enqueue
@@ -79,5 +79,32 @@ namespace FunctionColorApp
                 return new BadRequestObjectResult("Can't create color: " + e.Message + " ");
             }
         }
+
+
+        [FunctionName("ModifyColor")]
+        public static async Task<IActionResult> ModifyColor([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "colors")]HttpRequestMessage req,
+                                                            [Table("colorsTable", Connection = "MyTable")]CloudTable table,
+                                                            TraceWriter log,
+                                                            ExecutionContext context)
+        {
+            log.Info($"Intent de modificar un color");
+            try
+            {
+                var json = await req.Content.ReadAsStringAsync();
+                var color = JsonConvert.DeserializeObject<Color>(json);
+                int code = await table.ModifyColorFromTable(color);
+                if (code != 400) {
+                    return new OkObjectResult(color);
+                } else {
+                    return new BadRequestObjectResult("Failed to modify color");
+                }
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("Can't modify color: " + e.Message + " ");
+            }
+        }
+    
+
     }
 }

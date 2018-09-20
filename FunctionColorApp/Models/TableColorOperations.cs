@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,16 +27,31 @@ namespace FunctionColorApp.Models
         /// <remarks>
         /// Color és l'objecte DTO
         /// </remarks>
-        public static async Task<int> AddOrUpdateColorToTable(this CloudTable table, Color color)
+        public static async Task<int> AddColorToTable(this CloudTable table, Color color)
         {
             if (string.IsNullOrEmpty(color.Id))
             {
                 color.Id = color.Rgb;
             }
             var item = color.MapToTable();
-            var saveOperation = TableOperation.InsertOrReplace(item);
+            var saveOperation = TableOperation.Insert(item);
             TableResult resultat = await table.ExecuteAsync(saveOperation);
             return resultat.HttpStatusCode;
+        }
+
+        public static async Task<int> ModifyColorFromTable(this CloudTable table, Color color)
+        {
+            var retrieveOperation = TableOperation.Retrieve<ColorItem>(color.Rgb, color.Traduccio.Idioma);
+            TableResult resultat = await table.ExecuteAsync(retrieveOperation);
+            ColorItem item = ((ColorItem)resultat.Result);
+            if (item != null)
+            {                
+                item = color.MapToTable();
+                var saveOperation = TableOperation.Replace(item);
+                TableResult resultatDesar = await table.ExecuteAsync(saveOperation);
+                return resultatDesar.HttpStatusCode;
+            }
+            return 400;
         }
 
         /// <summary>
@@ -103,6 +119,22 @@ namespace FunctionColorApp.Models
             var item = new ColorItem(rgb, idioma) { ETag = "*" };
             var deleteOperation = TableOperation.Delete(item);
             table.ExecuteAsync(deleteOperation);
+        }
+
+        /// <summary>
+        /// Obtenir la quantitat de traduccions d'un determinat idioma
+        /// es pot fer de forma més eficient, però és simplement per fer proves
+        /// </summary>
+        public static async Task<int> GetNumTraductionsFromTable(this CloudTable table, string idioma)
+        {
+            int comptador = 0;
+            TableQuery<ColorItem> query = new TableQuery<ColorItem>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, idioma));
+            var resultat = await table.ExecuteQuerySegmentedAsync(query, null);
+            foreach (ColorItem c in resultat)
+            {
+                comptador++;
+            }
+            return comptador;
         }
     }
 }

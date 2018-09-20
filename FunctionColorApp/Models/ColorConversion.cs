@@ -30,5 +30,15 @@
                 }
             };
         }
+
+        public static Idiom MapFromTable(this IdiomItem item)
+        {
+            return new Idiom()
+            {
+                idioma = item.RowKey,
+                quantitat = item.quantitat
+            };
+        }
+
     }
 }
