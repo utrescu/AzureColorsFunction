@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using FunctionColorApp.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -30,5 +33,15 @@ namespace FunctionColorApp
             await table.AddOrUpdateStatisticsToTable(item);
             log.Info($"{idioma}: {item.quantitat}");
         }
+
+        [FunctionName("GetAllStats")]
+        public static IActionResult GetAllStats([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "stats")]HttpRequest req,
+            [Table("colorsStatisticsTable", Connection = "MyTable")]CloudTable inTable,
+            TraceWriter log)
+        {
+            log.Info("Petició de les estadístiques.");
+            return new OkObjectResult(inTable.GetAllStatistics());
+        }
+
     }
 }

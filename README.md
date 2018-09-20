@@ -21,7 +21,7 @@ Aquestes dades poden ser recuperades en un navegador amb peticions REST
 
 ### Crear un color
 
-S'envia un POST a /api/colors amb el contingut
+S'envia un POST a `/api/colors` amb el contingut
 
 L'estructura per crear una traducció és un document JSON que té aquesta forma:
 
@@ -43,6 +43,28 @@ Hi ha diferents URL per obtenir el que hi ha la base de dades
 | GET    | /api/colors/000000         | Retorna totes les traduccions d'un determinat RGB (en l'exemple 000000) |
 | GET    | /api/colors/000000/catala  | Retorna la traducció al català del 000000                               |
 
+### Obtenir les estadístiques per idiomes
+
+Hi ha una referència per obtenir les estadístiques per idiomes. Es crida a la url `/api/stats`.
+
+Retorna un objecte JSON com aquest:
+
+    [
+        {
+            "idioma": "angles",
+            "quantitat": 1
+        },
+        {
+            "idioma": "castella",
+            "quantitat": 2
+        },
+        {
+            "idioma": "catala",
+            "quantitat": 7
+        }
+    ]
+
+La gràcia d'aquesta petició és que es genera l'estadística a partir d'una funció que s'executa en el moment en que detecta que hi ha un missatge en una cua de missatges
 
 Requeriments
 ------------------------
@@ -50,7 +72,7 @@ Es pot executar directament al núvol d'Azure:
 
 - Creant un compte a Azure
     - Creant 'Storage'
--  canviant les dades de connexió actuals que es troben a local.settings.json per les que tingueu
+-  canviant les dades de connexió actuals que es troben a `local.settings.json` per les que tingueu
 
 O bé en local instal·lant [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local) i el [emulador de Storage](https://docs.microsoft.com/es-es/azure/storage/common/storage-use-emulator)
 
