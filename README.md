@@ -17,7 +17,7 @@ El programa funciona en Azure Functions i emmagatzema les dades en una 'Cloud Ta
 
 Aquestes dades poden ser recuperades en un navegador amb peticions REST
 
-![Exemple](README/recuperar.png)
+![Exemple](README/recuperar.PNG)
 
 ### Crear un color
 
