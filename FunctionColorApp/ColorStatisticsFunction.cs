@@ -18,16 +18,17 @@ namespace FunctionColorApp
         [FunctionName("ColorStatisticsFunction")]
         public static async Task Statistics(
             [QueueTrigger("color-added-queue", Connection = "MyTable")]Color myQueueItem,
-            [Table("colorsStatisticsTable", Connection = "MyTable")]CloudTable table, 
+            [Table("colorsStatisticsTable", Connection = "MyTable")]CloudTable table,
             TraceWriter log)
         {
-             var idioma = myQueueItem.Traduccio.Idioma;
+            var idioma = myQueueItem.Traduccio.Idioma;
             log.Info($"Recompte: {idioma}");
-           
-            // Agafa la quantitat actual de colors
-            var quantitat =  table.GetIdiomQuantitatFromTable(idioma); 
 
-            var item = new IdiomItem(idioma) {
+            // Agafa la quantitat actual de colors
+            var quantitat = table.GetIdiomQuantitatFromTable(idioma);
+
+            var item = new IdiomItem(idioma)
+            {
                 quantitat = quantitat + 1
             };
             await table.AddOrUpdateStatisticsToTable(item);
