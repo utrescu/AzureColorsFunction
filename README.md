@@ -111,8 +111,11 @@ I la despleguem amb el simulador de Functions (segurament es deu poder fer amb a
 
     func azure functionapp publish aplicaciocolors
 
-En aquest cas l'aplicació apareixerà a http://aplicaciocolors.azurewebsites.net/api/colors. 
+En aquest cas l'aplicació apareixerà a http://aplicaciocolors.azurewebsites.net/api/colors
 
+Per deixar de pagar s'han d'elimiar tots els recursos que s'estan fent servir:
+
+    az group delete --name grupet
 
 ### Executar en local
 
