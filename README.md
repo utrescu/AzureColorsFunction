@@ -99,7 +99,7 @@ Creem l'espai d'emmagatzematge:
 Creem l'aplicació (s'ha de buscar un nom que no s'estigui fent servir a Azure perquè serà la forma d'accedir-hi)
 
     az functionapp create --resource-group grupet --consumption-plan-location westeurope \
-                          --name aplicaciocolors --storage-account grupet
+                          --name aplicaciocolors --storage-account magatzem
 
 Li diem que volem fer servir la versió 2 d'Azure Functions (perquè és la única que suporta Net Core)
 
