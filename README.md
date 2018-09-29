@@ -1,5 +1,7 @@
+Serverless ColorsRest
+===================================
 
-Es tracta d'un servei REST per emmagatzemar les traduccions dels noms dels colors implementat en "Azure Functions"
+Es tracta d'un servei REST per emmagatzemar les traduccions dels noms dels colors implementat en "Azure Functions". Per tant és un servei sense que s'hagi de configurar cap servidor (serverless) que funciona a través de funcions que s'executen en el moment en que es produeixen algun event (peticions HTTP, arriba un missatge a la cua, quan ha passat cert temps)
 
 ![Azure Functions](README/azure-functions.png)
 
