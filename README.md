@@ -96,7 +96,7 @@ Creem l'espai d'emmagatzematge:
     az storage account create --name magatzem --location westeurope \
                              --resource-group grupet --sku Standard_LRS
 
-Creem l'aplicació:
+Creem l'aplicació (s'ha de buscar un nom que no s'estigui fent servir a Azure perquè serà la forma d'accedir-hi)
 
     az functionapp create --resource-group grupet --consumption-plan-location westeurope \
                           --name aplicaciocolors --storage-account grupet
@@ -110,6 +110,8 @@ Li diem que volem fer servir la versió 2 d'Azure Functions (perquè és la úni
 I la despleguem amb el simulador de Functions (segurament es deu poder fer amb az però no ho he trobat)
 
     func azure functionapp publish aplicaciocolors
+
+En aquest cas l'aplicació apareixerà a http://aplicaciocolors.azurewebsites.net/api/colors. 
 
 
 ### Executar en local
